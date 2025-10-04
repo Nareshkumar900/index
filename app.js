@@ -140,11 +140,13 @@ if (mobileProfileButton) {
   });
 }
 
-const mobileMenuLinks = mobileMenu.getElementsByTagName('a');
-for (let i = 0; i < mobileMenuLinks.length; i++) {
-  mobileMenuLinks[i].addEventListener('click', () => {
-    mobileMenu.classList.add('hidden');
-  });
+if (mobileMenu) {
+  const mobileMenuLinks = mobileMenu.getElementsByTagName('a');
+  for (let i = 0; i < mobileMenuLinks.length; i++) {
+    mobileMenuLinks[i].addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+    });
+  }
 }
 
 closeModalButton.addEventListener('click', hideModal);
