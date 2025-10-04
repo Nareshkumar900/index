@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore the Monasteries of Sikkim</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1603590219356-425015d5e5c7?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .section-title {
+            @apply text-3xl md: text-4xl font-bold text-gray-800 mb-4 text-center;
+        }
+        
+        .section-subtitle {
+            @apply text-lg text-gray-600 mb-8 text-center max-w-2xl mx-auto;
+        }
+        
+        .feature-card {
+            @apply bg-white p-6 rounded-2xl shadow-lg hover: shadow-2xl transition-shadow duration-300;
+        }
+        
+        .feature-icon {
+            @apply text-4xl text-purple-600 mb-4;
+        }
+        
+        #modal-content {
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+
+    <!-- Login/Sign Up Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[100] hidden">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <!-- Close Button -->
+            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <img src="https://placehold.co/150x50/ffffff/0694a2?text=Zedong" alt="Zedong Logo" class="h-10 mx-auto mb-4 logo">
+                <h2 id="modal-title" class="text-2xl font-bold text-gray-800">Welcome Back</h2>
+                <p id="modal-subtitle" class="text-gray-500">Sign in to continue your journey.</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex border-b mb-6">
+                <button id="login-tab" class="flex-1 py-2 font-semibold text-purple-600 border-b-2 border-purple-600">Login</button>
+                <button id="signup-tab" class="flex-1 py-2 font-semibold text-gray-500">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form">
+                <!-- Social Logins -->
+                <div class="flex flex-col space-y-3 mb-4">
+                    <button type="button" id="login-google-btn" class="w-full flex items-center justify-center py-3 rounded-lg bg-red-600 text-white hover:bg-red-700 transition font-bold">
+                        <i class="fab fa-google mr-2"></i> Sign in with Google
+                    </button>
+                    <button type="button" id="login-facebook-btn" class="w-full flex items-center justify-center py-3 rounded-lg bg-blue-800 text-white hover:bg-blue-900 transition font-bold">
+                        <i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook
+                    </button>
+                </div>
+                <!-- OR Separator -->
+                <div class="flex items-center my-6">
+                    <div class="flex-grow border-t border-gray-300"></div>
+                    <span class="mx-4 text-gray-500 text-sm font-semibold">OR</span>
+                    <div class="flex-grow border-t border-gray-300"></div>
+                </div>
+                <div class="mb-4">
+                    <label for="login-email" class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+                    <input type="email" id="login-email" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="you@example.com" required>
+                </div>
+                <div class="mb-6">
+                    <label for="login-password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <input type="password" id="login-password" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="w-full bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition">Login with Email</button>
+            </form>
+
+            <!-- Sign Up Form (hidden by default) -->
+            <form id="signup-form" class="hidden">
+                <!-- Social Signups -->
+                <div class="flex flex-col space-y-3 mb-4">
+                    <button type="button" id="signup-google-btn" class="w-full flex items-center justify-center py-3 rounded-lg bg-red-600 text-white hover:bg-red-700 transition font-bold">
+                        <i class="fab fa-google mr-2"></i> Sign up with Google
+                    </button>
+                    <button type="button" id="signup-facebook-btn" class="w-full flex items-center justify-center py-3 rounded-lg bg-blue-800 text-white hover:bg-blue-900 transition font-bold">
+                        <i class="fab fa-facebook-f mr-2"></i> Sign up with Facebook
+                    </button>
+                </div>
+                <!-- OR Separator -->
+                <div class="flex items-center my-6">
+                    <div class="flex-grow border-t border-gray-300"></div>
+                    <span class="mx-4 text-gray-500 text-sm font-semibold">OR</span>
+                    <div class="flex-grow border-t border-gray-300"></div>
+                </div>
+                <div class="mb-4">
+                    <label for="signup-name" class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+                    <input type="text" id="signup-name" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Your Name" required>
+                </div>
+                <div class="mb-4">
+                    <label for="signup-email" class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+                    <input type="email" id="signup-email" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="you@example.com" required>
+                </div>
+                <div class="mb-6">
+                    <label for="signup-password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <input type="password" id="signup-password" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Create a password" required>
+                </div>
+                <button type="submit" class="w-full bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition">Create Account with Email</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center">
+                <img src="https://placehold.co/150x50/ffffff/0694a2?text=Zedong" alt="Zedong Logo" class="h-12 logo">
+            </a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#" class="text-gray-600 hover:text-purple-600 transition flex items-center"><i class="fas fa-home mr-2"></i>Home</a>
+                <a href="#virtual-tours" class="text-gray-600 hover:text-purple-600 transition flex items-center"><i class="fas fa-camera mr-2"></i>Virtual Tours</a>
+                <a href="#map" class="text-gray-600 hover:text-purple-600 transition flex items-center"><i class="fas fa-map-marked-alt mr-2"></i>Interactive Map</a>
+                <a href="#vr-experience" class="text-gray-600 hover:text-purple-600 transition flex items-center"><i class="fas fa-vr-cardboard mr-2"></i>VR Experience</a>
+                <a href="#archives" class="text-gray-600 hover:text-purple-600 transition flex items-center"><i class="fas fa-archive mr-2"></i>Digital Archives</a>
+                <a href="#calendar" class="text-gray-600 hover:text-purple-600 transition flex items-center"><i class="fas fa-calendar-alt mr-2"></i>Cultural Calendar</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-purple-600">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+            <a href="#" class="block py-2 text-gray-600 hover:text-purple-600">Home</a>
+            <a href="#virtual-tours" class="block py-2 text-gray-600 hover:text-purple-600">Virtual Tours</a>
+            <a href="#map" class="block py-2 text-gray-600 hover:text-purple-600">Interactive Map</a>
+            <a href="#vr-experience" class="block py-2 text-gray-600 hover:text-purple-600">VR Experience</a>
+            <a href="#archives" class="block py-2 text-gray-600 hover:text-purple-600">Archives</a>
+            <a href="#calendar" class="block py-2 text-gray-600 hover:text-purple-600">Calendar</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white min-h-screen flex flex-col items-center justify-center p-4">
+        <div class="text-center max-w-4xl">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 leading-tight">Heritage <span class="text-yellow-300">Journey</span> of Sikkim</h1>
+            <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8">
+                Showcasing the culture and spiritual treasures of Sikkim's monasteries for a global audience.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                <a href="#virtual-tours" class="bg-yellow-400 text-gray-900 font-bold py-3 px-6 rounded-lg flex items-center justify-center hover:bg-yellow-500 transition w-full sm:w-auto">
+                    <i class="fas fa-camera mr-2"></i> Start Virtual Tour
+                </a>
+                <a href="#vr-experience" class="border-2 border-white text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center hover:bg-white hover:text-gray-900 transition w-full sm:w-auto">
+                    <i class="fas fa-vr-cardboard mr-2"></i> VR Experience
+                </a>
+                <a href="#map" class="border-2 border-white text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center hover:bg-white hover:text-gray-900 transition w-full sm:w-auto">
+                    <i class="fas fa-map-marked-alt mr-2"></i> Explore Map
+                </a>
+            </div>
+            <div class="grid grid-cols-3 gap-4 text-center max-w-2xl mx-auto">
+                <div>
+                    <p class="text-3xl md:text-4xl font-bold">15+</p>
+                    <p class="text-sm text-gray-300">Sacred Sites</p>
+                </div>
+                <div>
+                    <p class="text-3xl md:text-4xl font-bold">360°</p>
+                    <p class="text-sm text-gray-300">Virtual Tours</p>
+                </div>
+                <div>
+                    <p class="text-3xl md:text-4xl font-bold">1000+</p>
+                    <p class="text-sm text-gray-300">Digital Archives</p>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-10 animate-bounce">
+            <i class="fas fa-mouse text-2xl"></i>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-6 py-12">
+        <!-- Virtual Tours Section -->
+        <section id="virtual-tours" class="py-16">
+            <h2 class="section-title">Virtual Tours</h2>
+            <p class="section-subtitle">Immerse yourself in the sacred spaces of Sikkim's monasteries with our 360° panoramic views and guided experiences.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Tour Card 1: Rumtek -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div class="relative">
+                        <img src="https://placehold.co/600x400/78350f/ffffff?text=Sacred+Halls" alt="Sacred Halls of Rumtek" class="w-full h-56 object-cover">
+                        <div class="absolute top-4 left-4 bg-black bg-opacity-60 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                            <i class="fas fa-camera mr-2"></i> 360° Tour
+                        </div>
+                        <div class="absolute top-4 right-4 bg-black bg-opacity-60 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i> 4.9
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Sacred Halls of Rumtek</h3>
+                        <p class="text-gray-500 mb-4">Rumtek Monastery</p>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Experience the grandeur of the main prayer hall with 360° views and narrated history.
+                        </p>
+                        <div class="flex justify-between items-center text-sm text-gray-500 border-b pb-4 mb-4">
+                            <div class="flex items-center"><i class="far fa-clock mr-2"></i> 25 min</div>
+                            <div class="flex items-center"><i class="fas fa-users mr-2"></i> 1,247</div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-full">English</span>
+                            <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-full">Hindi</span>
+                            <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-full">Nepali</span>
+                        </div>
+                        <button class="w-full bg-red-800 text-white font-bold py-3 rounded-lg hover:bg-red-900 transition flex items-center justify-center">
+                            <i class="fas fa-play-circle mr-2"></i> Start Experience
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tour Card 2: Pemayangtse -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div class="relative">
+                        <img src="https://placehold.co/600x400/7c2d12/ffffff?text=Morning+Prayers" alt="Morning Prayers Experience" class="w-full h-56 object-cover">
+                        <div class="absolute top-4 left-4 bg-black bg-opacity-60 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                            <i class="fas fa-route mr-2"></i> Guided
+                        </div>
+                        <div class="absolute top-4 right-4 bg-black bg-opacity-60 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i> 4.8
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Morning Prayers Experience</h3>
+                        <p class="text-gray-500 mb-4">Pemayangtse Monastery</p>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Join the monks for their morning prayers in this immersive guided experience.
+                        </p>
+                        <div class="flex justify-between items-center text-sm text-gray-500 border-b pb-4 mb-4">
+                            <div class="flex items-center"><i class="far fa-clock mr-2"></i> 45 min</div>
+                            <div class="flex items-center"><i class="fas fa-users mr-2"></i> 892</div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-full">English</span>
+                            <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-full">Tibetan</span>
+                            <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-full">Hindi</span>
+                        </div>
+                        <button class="w-full bg-red-800 text-white font-bold py-3 rounded-lg hover:bg-red-900 transition flex items-center justify-center">
+                            <i class="fas fa-play-circle mr-2"></i> Start Experience
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tour Card 3: Enchey -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div class="relative">
+                        <img src="https://placehold.co/600x400/7f1d1d/ffffff?text=VR+Meditation" alt="VR Meditation Journey" class="w-full h-56 object-cover">
+                        <div class="absolute top-4 left-4 bg-black bg-opacity-60 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                            <i class="fas fa-vr-cardboard mr-2"></i> VR
+                        </div>
+                        <div class="absolute top-4 right-4 bg-black bg-opacity-60 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i> 4.7
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800">VR Meditation Journey</h3>
+                        <p class="text-gray-500 mb-4">Enchey Monastery</p>
+                        <p class="text-gray-600 text-sm mb-4">
+                            A virtual reality meditation experience with breathtaking Himalayan views.
+                        </p>
+                        <div class="flex justify-between items-center text-sm text-gray-500 border-b pb-4 mb-4">
+                            <div class="flex items-center"><i class="far fa-clock mr-2"></i> 30 min</div>
+                            <div class="flex items-center"><i class="fas fa-users mr-2"></i> 634</div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-full">English</span>
+                            <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-full">Tibetan</span>
+                        </div>
+                        <button class="w-full bg-red-800 text-white font-bold py-3 rounded-lg hover:bg-red-900 transition flex items-center justify-center">
+                            <i class="fas fa-play-circle mr-2"></i> Start Experience
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <button class="bg-white text-gray-700 font-bold py-3 px-8 rounded-lg border-2 border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition">
+                    <i class="fas fa-eye mr-2"></i> View All Tours
+                </button>
+            </div>
+        </section>
+
+        <!-- Interactive Map Section -->
+        <section id="map" class="py-16 bg-gray-50 rounded-2xl">
+            <h2 class="section-title">Interactive Map</h2>
+            <p class="section-subtitle">Discover the sacred monasteries scattered across the mystical landscape of Sikkim.</p>
+            <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-start">
+                <!-- Left Column: Map -->
+                <div class="sticky top-28 h-[700px]">
+                    <div class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl shadow-lg p-4 relative overflow-hidden flex flex-col justify-center items-center text-white">
+                        <i class="fas fa-mountain text-9xl opacity-10 mb-4"></i>
+                        <h3 class="text-3xl font-bold">Interactive Map</h3>
+                        <p class="text-blue-200">Sikkim Monastery Locations</p>
+                        <!-- Floating Location Pins -->
+                        <div class="absolute" style="top: 25%; left: 45%;">
+                            <div class="bg-yellow-400 text-gray-900 text-sm font-bold px-3 py-1.5 rounded-lg shadow-lg flex items-center transform transition hover:scale-110"><i class="fas fa-map-marker-alt mr-2"></i> Rumtek</div>
+                        </div>
+                        <div class="absolute" style="top: 35%; left: 65%;">
+                            <div class="bg-yellow-400 text-gray-900 text-sm font-bold px-3 py-1.5 rounded-lg shadow-lg flex items-center transform transition hover:scale-110"><i class="fas fa-map-marker-alt mr-2"></i> Enchey</div>
+                        </div>
+                        <div class="absolute" style="bottom: 30%; left: 30%;">
+                            <div class="bg-yellow-400 text-gray-900 text-sm font-bold px-3 py-1.5 rounded-lg shadow-lg flex items-center transform transition hover:scale-110"><i class="fas fa-map-marker-alt mr-2"></i> Tashiding</div>
+                        </div>
+                        <div class="absolute" style="bottom: 20%; left: 40%;">
+                            <div class="bg-yellow-400 text-gray-900 text-sm font-bold px-3 py-1.5 rounded-lg shadow-lg flex items-center transform transition hover:scale-110"><i class="fas fa-map-marker-alt mr-2"></i> Pemayangtse</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Column: List of Sites -->
+                <div>
+                    <h3 class="text-3xl font-bold mb-6 text-gray-800">Sacred Sites</h3>
+                    <div class="space-y-6">
+                        <!-- Site Card 1: Rumtek -->
+                        <div class="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-xl transition-shadow">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h4 class="text-xl font-bold text-gray-800">Rumtek Monastery</h4>
+                                    <p class="text-sm text-gray-500 flex items-center mt-1"><i class="fas fa-map-pin mr-2"></i> Gangtok</p>
+                                </div>
+                                <div class="bg-yellow-100 text-yellow-800 text-sm font-bold px-3 py-1 rounded-full flex items-center"><i class="fas fa-star text-yellow-500 mr-1.5"></i> 4.8</div>
+                            </div>
+                            <p class="text-gray-600 my-4 text-sm">The largest monastery in Sikkim, seat of the Karmapa.</p>
+                            <div class="flex items-center space-x-4 text-xs text-gray-500 mb-6 border-t pt-4"><span><i class="far fa-calendar-alt mr-1.5"></i> Est. 1740</span><span><i class="fas fa-mountain mr-1.5"></i> 1,550m</span></div>
+                            <div class="grid grid-cols-2 gap-4"><button class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 px-4 rounded-lg hover:bg-gray-100 transition flex items-center justify-center"><i class="fas fa-directions mr-2"></i> Get Directions</button>
+                                <button
+                                    class="w-full bg-yellow-400 text-gray-900 font-bold py-3 px-4 rounded-lg hover:bg-yellow-500 transition">Virtual Tour</button>
+                            </div>
+                        </div>
+                        <!-- Site Card 2: Pemayangtse -->
+                        <div class="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-xl transition-shadow">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h4 class="text-xl font-bold text-gray-800">Pemayangtse Monastery</h4>
+                                    <p class="text-sm text-gray-500 flex items-center mt-1"><i class="fas fa-map-pin mr-2"></i> Pelling</p>
+                                </div>
+                                <div class="bg-yellow-100 text-yellow-800 text-sm font-bold px-3 py-1 rounded-full flex items-center"><i class="fas fa-star text-yellow-500 mr-1.5"></i> 4.7</div>
+                            </div>
+                            <p class="text-gray-600 my-4 text-sm">One of the oldest and most significant monasteries in Sikkim.</p>
+                            <div class="flex items-center space-x-4 text-xs text-gray-500 mb-6 border-t pt-4"><span><i class="far fa-calendar-alt mr-1.5"></i> Est. 1705</span><span><i class="fas fa-mountain mr-1.5"></i> 2,085m</span></div>
+                            <div class="grid grid-cols-2 gap-4"><button class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 px-4 rounded-lg hover:bg-gray-100 transition flex items-center justify-center"><i class="fas fa-directions mr-2"></i> Get Directions</button>
+                                <button
+                                    class="w-full bg-yellow-400 text-gray-900 font-bold py-3 px-4 rounded-lg hover:bg-yellow-500 transition">Virtual Tour</button>
+                            </div>
+                        </div>
+                        <!-- Site Card 3: Enchey -->
+                        <div class="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-xl transition-shadow">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h4 class="text-xl font-bold text-gray-800">Enchey Monastery</h4>
+                                    <p class="text-sm text-gray-500 flex items-center mt-1"><i class="fas fa-map-pin mr-2"></i> Gangtok</p>
+                                </div>
+                                <div class="bg-yellow-100 text-yellow-800 text-sm font-bold px-3 py-1 rounded-full flex items-center"><i class="fas fa-star text-yellow-500 mr-1.5"></i> 4.6</div>
+                            </div>
+                            <p class="text-gray-600 my-4 text-sm">Perched on a hilltop with panoramic views of Kanchenjunga.</p>
+                            <div class="flex items-center space-x-4 text-xs text-gray-500 mb-6 border-t pt-4"><span><i class="far fa-calendar-alt mr-1.5"></i> Est. 1909</span><span><i class="fas fa-mountain mr-1.5"></i> 1,900m</span></div>
+                            <div class="grid grid-cols-2 gap-4"><button class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 px-4 rounded-lg hover:bg-gray-100 transition flex items-center justify-center"><i class="fas fa-directions mr-2"></i> Get Directions</button>
+                                <button
+                                    class="w-full bg-yellow-400 text-gray-900 font-bold py-3 px-4 rounded-lg hover:bg-yellow-500 transition">Virtual Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VR Experience Section -->
+        <section id="vr-experience" class="py-16">
+            <h2 class="section-title">Immersive VR Experience</h2>
+            <p class="section-subtitle">Put on your VR headset and transport yourself to the heart of Sikkim's monasteries. A truly transcendent experience awaits.</p>
+            <div class="text-center">
+                <div class="feature-card max-w-md mx-auto">
+                    <div class="feature-icon mx-auto"><i class="fas fa-vr-cardboard"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Coming Soon</h3>
+                    <p class="text-gray-600">Our VR experiences are under development. Stay tuned for a revolutionary way to explore sacred spaces.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Digital Archives Section -->
+        <section id="archives" class="py-16">
+            <h2 class="section-title">Digital Archives</h2>
+            <p class="section-subtitle">Explore our digitized collection of ancient manuscripts, sacred murals, and historical documents.</p>
+            <!-- Search and Filter -->
+            <div class="max-w-4xl mx-auto mb-10">
+                <div class="relative"><input type="search" placeholder="Search manuscripts, murals, documents..." class="w-full p-4 pl-12 text-lg border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-red-800 outline-none transition"><i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i></div>
+                <div
+                    class="flex flex-wrap justify-center gap-3 mt-6"><button class="px-4 py-2 text-sm font-semibold bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition"><i class="fas fa-magic-sparkles mr-2"></i>AI-Analyzed</button><button class="px-4 py-2 text-sm font-semibold bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition">Manuscripts</button>
+                    <button
+                        class="px-4 py-2 text-sm font-semibold bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition">Murals</button><button class="px-4 py-2 text-sm font-semibold bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition">18th Century</button><button class="px-4 py-2 text-sm font-semibold bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition">Tibetan</button></div>
+            </div>
+            <!-- Archives Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Archive Card 1 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div class="relative"><img src="https://placehold.co/600x400/422006/ffffff?text=Ancient+Script" alt="Lotus Sutra Manuscript" class="w-full h-56 object-cover">
+                        <div class="absolute top-3 left-3 flex gap-2"><span class="bg-black bg-opacity-60 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center"><i class="fas fa-book-open mr-1.5"></i>Manuscript</span><span class="bg-black bg-opacity-60 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center"><i class="fas fa-magic-sparkles mr-1.5"></i>AI Analyzed</span></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800">Lotus Sutra Manuscript</h3>
+                        <p class="text-sm text-gray-500 mb-3">Rumtek Monastery • 18th Century</p>
+                        <p class="text-gray-600 text-sm mb-4">Ancient handwritten manuscript on traditional paper with gold illuminations.</p>
+                        <div class="flex justify-between items-center text-sm text-gray-500 border-t pt-4 mb-4"><span>Tibetan</span><span class="flex items-center"><i class="fas fa-download mr-2"></i>342 downloads</span></div>
+                        <div class="grid grid-cols-2 gap-3"><button class="w-full bg-red-800 text-white font-bold py-2.5 rounded-lg hover:bg-red-900 transition flex items-center justify-center"><i class="fas fa-eye mr-2"></i> View</button><button class="w-full bg-gray-100 text-gray-800 font-bold py-2.5 rounded-lg hover:bg-gray-200 border border-gray-300 transition flex items-center justify-center"><i class="fas fa-download mr-2"></i> Download</button></div>
+                    </div>
+                </div>
+                <!-- Archive Card 2 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div class="relative"><img src="https://placehold.co/600x400/422006/ffffff?text=Tara+Painting" alt="Wall Paintings of Tara" class="w-full h-56 object-cover">
+                        <div class="absolute top-3 left-3 flex gap-2"><span class="bg-black bg-opacity-60 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center"><i class="fas fa-palette mr-1.5"></i>Mural</span><span class="bg-black bg-opacity-60 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center"><i class="fas fa-magic-sparkles mr-1.5"></i>AI Analyzed</span></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800">Wall Paintings of Tara</h3>
+                        <p class="text-sm text-gray-500 mb-3">Pemayangtse Monastery • 17th Century</p>
+                        <p class="text-gray-600 text-sm mb-4">Exquisite murals depicting the 21 forms of Tara in traditional Tibetan style.</p>
+                        <div class="flex justify-between items-center text-sm text-gray-500 border-t pt-4 mb-4"><span>Visual</span><span class="flex items-center"><i class="fas fa-download mr-2"></i>567 downloads</span></div>
+                        <div class="grid grid-cols-2 gap-3"><button class="w-full bg-red-800 text-white font-bold py-2.5 rounded-lg hover:bg-red-900 transition flex items-center justify-center"><i class="fas fa-eye mr-2"></i> View</button><button class="w-full bg-gray-100 text-gray-800 font-bold py-2.5 rounded-lg hover:bg-gray-200 border border-gray-300 transition flex items-center justify-center"><i class="fas fa-download mr-2"></i> Download</button></div>
+                    </div>
+                </div>
+                <!-- Archive Card 3 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div class="relative"><img src="https://placehold.co/600x400/422006/ffffff?text=Monastery+Records" alt="Monastery Records" class="w-full h-56 object-cover"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800">Monastery Records</h3>
+                        <p class="text-sm text-gray-500 mb-3">Enchey Monastery • 19th Century</p>
+                        <p class="text-gray-600 text-sm mb-4">Historical records of monastery activities, rituals, and administrative documents.</p>
+                        <div class="flex justify-between items-center text-sm text-gray-500 border-t pt-4 mb-4"><span>Tibetan, Nepali</span><span class="flex items-center"><i class="fas fa-download mr-2"></i>234 downloads</span></div>
+                        <div class="grid grid-cols-2 gap-3"><button class="w-full bg-red-800 text-white font-bold py-2.5 rounded-lg hover:bg-red-900 transition flex items-center justify-center"><i class="fas fa-eye mr-2"></i> View</button><button class="w-full bg-gray-100 text-gray-800 font-bold py-2.5 rounded-lg hover:bg-gray-200 border border-gray-300 transition flex items-center justify-center"><i class="fas fa-download mr-2"></i> Download</button></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Smart Audio Guide App Section -->
+        <section id="audio-guide" class="py-16 bg-gray-100 rounded-2xl">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="text-center md:text-left">
+                    <h2 class="section-title !text-left">Your Personal Tour Guide</h2>
+                    <p class="section-subtitle !text-left !mx-0">Download our Smart Audio Guide app for an enriched experience. Get location-based stories and information delivered right to your ears, even in remote areas without connectivity.</p>
+                    <ul class="space-y-4 text-gray-700 mb-6">
+                        <li class="flex items-start"><i class="fas fa-map-marker-alt text-purple-600 mt-1 mr-3"></i><span><strong>GPS & Beacon Activated:</strong> Audio plays automatically as you explore.</span></li>
+                        <li class="flex items-start"><i class="fas fa-wifi-slash text-purple-600 mt-1 mr-3"></i><span><strong>Offline Mode:</strong> Download guides in advance for uninterrupted access.</span></li>
+                        <li class="flex items-start"><i class="fas fa-language text-purple-600 mt-1 mr-3"></i><span><strong>Multiple Languages:</strong> Narrated by local experts in English, Hindi, and more.</span></li>
+                    </ul>
+                    <div class="flex space-x-4 justify-center md:justify-start">
+                        <a href="#" class="bg-black text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-gray-800">
+                            <i class="fab fa-apple text-2xl"></i>
+                            <div>
+                                <p class="text-xs">Download on the</p>
+                                <p class="text-lg font-bold">App Store</p>
+                            </div>
+                        </a>
+                        <a href="#" class="bg-black text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-gray-800">
+                            <i class="fab fa-google-play text-2xl"></i>
+                            <div>
+                                <p class="text-xs">GET IT ON</p>
+                                <p class="text-lg font-bold">Google Play</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <img src="https://placehold.co/400x600/c084fc/ffffff?text=App+Screenshot" alt="Audio Guide App" class="rounded-2xl shadow-2xl transform transition duration-500 hover:scale-105">
+                </div>
+            </div>
+        </section>
+
+        <!-- Cultural Calendar Section -->
+        <section id="calendar" class="py-16">
+            <h2 class="section-title">Cultural Calendar</h2>
+            <p class="section-subtitle">Join us for sacred festivals, daily rituals, and special ceremonies throughout the year.</p>
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12"><button class="bg-yellow-400 text-gray-900 font-bold py-3 px-6 rounded-lg hover:bg-yellow-500 transition flex items-center"><i class="fas fa-calendar-alt mr-2"></i> View Full Calendar</button><button class="bg-white border-2 border-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition flex items-center"><i class="fas fa-bell mr-2"></i> Set Reminders</button>
+                <button
+                    class="bg-white border-2 border-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition flex items-center"><i class="fas fa-user mr-2"></i> My Events</button>
+            </div>
+            <!-- Events Grid -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Event Card 1: Losar Festival -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-center gap-2 mb-4"><span class="text-xs font-bold text-orange-700 bg-orange-100 px-3 py-1 rounded-full"><i class="fas fa-champagne-glasses mr-1.5"></i>Festival</span><span class="text-xs font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">Upcoming</span></div>
+                    <h3
+                        class="text-2xl font-bold text-gray-800">Losar Festival</h3>
+                        <p class="text-sm text-gray-500 mb-4">Rumtek Monastery</p>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-600 mb-4 border-b pb-4"><span><i class="far fa-calendar-alt w-5 text-center mr-1.5"></i> February 28, 2024</span><span><i class="far fa-clock w-5 text-center mr-1.5"></i> 6:00 AM</span><span><i class="far fa-hourglass-half w-5 text-center mr-1.5"></i> 3 days</span><span><i class="fas fa-users w-5 text-center mr-1.5"></i> 1,500 attendees</span></div>
+                        <p
+                            class="text-sm text-gray-600 mb-4">Tibetan New Year celebration with traditional dances, prayers, and rituals.</p>
+                            <div class="bg-gray-50 p-3 rounded-lg text-sm mb-6">
+                                <p><strong>Significance:</strong> Most important festival marking the beginning of the Tibetan calendar year.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3"><button class="w-full bg-red-800 text-white font-bold py-3 rounded-lg hover:bg-red-900 transition"><i class="fas fa-bell mr-2"></i> Add Reminder</button><button class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-100 transition"><i class="fas fa-directions mr-2"></i> Get Directions</button></div>
+                </div>
+                <!-- Event Card 2: Daily Morning Prayers -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-center gap-2 mb-4"><span class="text-xs font-bold text-blue-700 bg-blue-100 px-3 py-1 rounded-full"><i class="fas fa-person-praying mr-1.5"></i>Ritual</span><span class="text-xs font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">Upcoming</span></div>
+                    <h3
+                        class="text-2xl font-bold text-gray-800">Daily Morning Prayers</h3>
+                        <p class="text-sm text-gray-500 mb-4">Pemayangtse Monastery</p>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-600 mb-4 border-b pb-4"><span><i class="far fa-calendar-alt w-5 text-center mr-1.5"></i> Daily</span><span><i class="far fa-clock w-5 text-center mr-1.5"></i> 5:30 AM</span><span><i class="far fa-hourglass-half w-5 text-center mr-1.5"></i> 2 hours</span><span><i class="fas fa-users w-5 text-center mr-1.5"></i> 50 attendees</span></div>
+                        <p
+                            class="text-sm text-gray-600 mb-4">Traditional morning prayers and chanting by the resident monks.</p>
+                            <div class="bg-gray-50 p-3 rounded-lg text-sm mb-6">
+                                <p><strong>Significance:</strong> Daily spiritual practice maintaining the monastery's sacred atmosphere.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3"><button class="w-full bg-red-800 text-white font-bold py-3 rounded-lg hover:bg-red-900 transition"><i class="fas fa-bell mr-2"></i> Add Reminder</button><button class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-100 transition"><i class="fas fa-directions mr-2"></i> Get Directions</button></div>
+                </div>
+                <!-- Event Card 3: Buddha Purnima -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-center gap-2 mb-4"><span class="text-xs font-bold text-purple-700 bg-purple-100 px-3 py-1 rounded-full"><i class="fas fa-om mr-1.5"></i>Ceremony</span><span class="text-xs font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">Upcoming</span></div>
+                    <h3
+                        class="text-2xl font-bold text-gray-800">Buddha Purnima</h3>
+                        <p class="text-sm text-gray-500 mb-4">Enchey Monastery</p>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-600 mb-4 border-b pb-4"><span><i class="far fa-calendar-alt w-5 text-center mr-1.5"></i> May 15, 2024</span><span><i class="far fa-clock w-5 text-center mr-1.5"></i> 4:00 AM</span><span><i class="far fa-hourglass-half w-5 text-center mr-1.5"></i> Full day</span><span><i class="fas fa-users w-5 text-center mr-1.5"></i> 800 attendees</span></div>
+                        <p
+                            class="text-sm text-gray-600 mb-4">Celebration of Buddha's birth, enlightenment, and death with special prayers.</p>
+                            <div class="bg-gray-50 p-3 rounded-lg text-sm mb-6">
+                                <p><strong>Significance:</strong> One of the most sacred days in Buddhist calendar.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3"><button class="w-full bg-red-800 text-white font-bold py-3 rounded-lg hover:bg-red-900 transition"><i class="fas fa-bell mr-2"></i> Add Reminder</button><button class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-100 transition"><i class="fas fa-directions mr-2"></i> Get Directions</button></div>
+                </div>
+                <!-- Event Card 4: Hemis Festival -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-center gap-2 mb-4"><span class="text-xs font-bold text-pink-700 bg-pink-100 px-3 py-1 rounded-full"><i class="fas fa-masks-theater mr-1.5"></i>Festival</span><span class="text-xs font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">Upcoming</span></div>
+                    <h3
+                        class="text-2xl font-bold text-gray-800">Hemis Festival</h3>
+                        <p class="text-sm text-gray-500 mb-4">Tashiding Monastery</p<div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-600 mb-4 border-b pb-4"><span><i class="far fa-calendar-alt w-5 text-center mr-1.5"></i> July 8-9, 2024</span><span><i class="far fa-clock w-5 text-center mr-1.5"></i> 9:00 AM</span><span><i class="far fa-hourglass-half w-5 text-center mr-1.5"></i> 2 days</span><span><i class="fas fa-users w-5 text-center mr-1.5"></i> 2,000 attendees</span></div>
+                <p
+                    class="text-sm text-gray-600 mb-4">Masked dance festival celebrating Guru Padmasambhava's victory over evil.</p>
+                    <div class="bg-gray-50 p-3 rounded-lg text-sm mb-6">
+                        <p><strong>Significance:</strong> Commemorates the birthday of Guru Padmasambhava.</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3"><button class="w-full bg-red-800 text-white font-bold py-3 rounded-lg hover:bg-red-900 transition"><i class="fas fa-bell mr-2"></i> Add Reminder</button><button class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-100 transition"><i class="fas fa-directions mr-2"></i> Get Directions</button></div>
+            </div>
+            </div>
+            <!-- Stats Section -->
+            <div class="grid md:grid-cols-3 gap-8 mt-16 text-center">
+                <div class="bg-orange-100 text-orange-800 p-6 rounded-xl">
+                    <p class="text-4xl font-bold">45+</p>
+                    <p class="font-semibold">Annual Events</p>
+                </div>
+                <div class="bg-blue-100 text-blue-800 p-6 rounded-xl">
+                    <p class="text-4xl font-bold">365</p>
+                    <p class="font-semibold">Daily Rituals</p>
+                </div>
+                <div class="bg-green-100 text-green-800 p-6 rounded-xl">
+                    <p class="text-4xl font-bold">15</p>
+                    <p class="font-semibold">Sacred Sites</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#4a2523] text-gray-300 pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Column 1: About -->
+                <div class="lg:col-span-1">
+                    <h3 class="flex items-center text-xl font-bold text-white mb-4">
+                        <svg class="w-6 h-6 mr-2 fill-current text-yellow-400" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1.5l-8 4v10l8 5 8-5v-10l-8-4zm0 2.15l6 3.2v7.3l-6 3.75-6-3.75v-7.3l6-3.2zM12 12.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>                        Sikkim Monasteries
+                    </h3>
+                    <p class="text-sm mb-4 leading-relaxed">
+                        Preserving and sharing the sacred heritage of Sikkim's monasteries through digital innovation and cultural presentation.
+                    </p>
+                    <div class="flex space-x-2">
+                        <a href="#" class="w-9 h-9 bg-[#bca97e] text-[#4a2523] rounded-md flex items-center justify-center hover:bg-yellow-200 transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-9 h-9 bg-[#bca97e] text-[#4a2523] rounded-md flex items-center justify-center hover:bg-yellow-200 transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-9 h-9 bg-[#bca97e] text-[#4a2523] rounded-md flex items-center justify-center hover:bg-yellow-200 transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-9 h-9 bg-[#bca97e] text-[#4a2523] rounded-md flex items-center justify-center hover:bg-yellow-200 transition"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Explore -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Explore</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#virtual-tours" class="hover:text-white transition">Virtual Tours</a></li>
+                        <li><a href="#map" class="hover:text-white transition">Interactive Map</a></li>
+                        <li><a href="#vr-experience" class="hover:text-white transition">VR Experience</a></li>
+                        <li><a href="#archives" class="hover:text-white transition">Digital Archives</a></li>
+                        <li><a href="#calendar" class="hover:text-white transition">Cultural Calendar</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Sacred Sites -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Sacred Sites</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Rumtek Monastery</a></li>
+                        <li><a href="#" class="hover:text-white transition">Pemayangtse Monastery</a></li>
+                        <li><a href="#" class="hover:text-white transition">Enchey Monastery</a></li>
+                        <li><a href="#" class="hover:text-white transition">Tashiding Monastery</a></li>
+                        <li><a href="#" class="hover:text-white transition">View All Sites</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start"><i class="fas fa-map-marker-alt w-4 mt-1 mr-3 text-yellow-400"></i><span>Gangtok, Sikkim, India</span></li>
+                        <li class="flex items-start"><i class="fas fa-phone w-4 mt-1 mr-3 text-yellow-400"></i><span>+91 XXXX XXXXXX</span></li>
+                        <li class="flex items-start"><i class="fas fa-envelope w-4 mt-1 mr-3 text-yellow-400"></i><span>info@sikkimmonasteries.org</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 border-opacity-20 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-sm">
+                <p class="mb-4 md:mb-0 text-gray-400">&copy; 2025 Sikkim Monasteries. Preserving heritage through technology.</p>
+                <div class="flex space-x-6 text-gray-400">
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Use</a>
+                    <a href="#" class="hover:text-white transition">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileMenuLinks = mobileMenu.getElementsByTagName('a');
+        for (let i = 0; i < mobileMenuLinks.length; i++) {
+            mobileMenuLinks[i].addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        }
+
+        // Auth Modal Logic
+        const authModal = document.getElementById('auth-modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeModalButton = document.getElementById('close-modal-button');
+        const modalTitle = document.getElementById('modal-title');
+        const modalSubtitle = document.getElementById('modal-subtitle');
+
+        const loginTab = document.getElementById('login-tab');
+        const signupTab = document.getElementById('signup-tab');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+
+        // Social Login Buttons
+        const loginGoogleBtn = document.getElementById('login-google-btn');
+        const loginFacebookBtn = document.getElementById('login-facebook-btn');
+        const signupGoogleBtn = document.getElementById('signup-google-btn');
+        const signupFacebookBtn = document.getElementById('signup-facebook-btn');
+
+
+        // Function to show the modal
+        const showModal = () => {
+            authModal.classList.remove('hidden');
+            // A little trick to trigger the transition
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        };
+
+        // Function to hide the modal
+        const hideModal = () => {
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                authModal.classList.add('hidden');
+            }, 300); // Match transition duration
+        };
+
+        // Show modal on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            // We'll add a small delay to let the page render first
+            setTimeout(showModal, 500);
+        });
+
+        // Close modal listeners
+        closeModalButton.addEventListener('click', hideModal);
+        authModal.addEventListener('click', (e) => {
+            // If click is on the overlay (outside the content), close modal
+            if (e.target === authModal) {
+                hideModal();
+            }
+        });
+
+        // Form submission listeners (for now, just close the modal)
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real app, you'd handle login here
+            console.log('Email login submitted');
+            hideModal();
+        });
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real app, you'd handle registration here
+            console.log('Email signup submitted');
+            hideModal();
+        });
+
+        // Social login listeners
+        loginGoogleBtn.addEventListener('click', () => {
+            console.log('Google login attempt');
+            // A real implementation would trigger the Google OAuth flow here.
+            hideModal();
+        });
+        loginFacebookBtn.addEventListener('click', () => {
+            console.log('Facebook login attempt');
+            // A real implementation would trigger the Facebook OAuth flow here.
+            hideModal();
+        });
+        signupGoogleBtn.addEventListener('click', () => {
+            console.log('Google signup attempt');
+            hideModal();
+        });
+        signupFacebookBtn.addEventListener('click', () => {
+            console.log('Facebook signup attempt');
+            hideModal();
+        });
+
+
+        // Tab switching logic
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('text-purple-600', 'border-purple-600');
+            loginTab.classList.remove('text-gray-500');
+            signupTab.classList.add('text-gray-500');
+            signupTab.classList.remove('text-purple-600', 'border-purple-600');
+
+            modalTitle.innerText = 'Welcome Back';
+            modalSubtitle.innerText = 'Sign in to continue your journey.';
+
+            loginForm.classList.remove('hidden');
+            signupForm.classList.add('hidden');
+        });
+
+        signupTab.addEventListener('click', () => {
+            signupTab.classList.add('text-purple-600', 'border-purple-600');
+            signupTab.classList.remove('text-gray-500');
+            loginTab.classList.add('text-gray-500');
+            loginTab.classList.remove('text-purple-600', 'border-purple-600');
+
+            modalTitle.innerText = 'Create an Account';
+            modalSubtitle.innerText = 'Join us to discover sacred heritage.';
+
+            signupForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+        });
+    </script>
+
+</body>
+
+</html>
