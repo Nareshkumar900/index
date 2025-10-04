@@ -53,7 +53,7 @@
             </button>
 
             <div class="text-center mb-6">
-                <img src="https://placehold.co/150x50/ffffff/0694a2?text=Zedong" alt="Zedong Logo" class="h-10 mx-auto mb-4 logo">
+                <img src="https://cdn.builder.io/api/v1/image/assets%2F24836939e6b24d848d6ebdf94ea0970a%2Fde9882f8acde4686bed1b9d1e5d99955?format=webp&width=800" alt="Zedong logo" class="h-10 w-auto mx-auto mb-4 logo">
                 <h2 id="modal-title" class="text-2xl font-bold text-gray-800">Welcome Back</h2>
                 <p id="modal-subtitle" class="text-gray-500">Sign in to continue your journey.</p>
             </div>
@@ -131,7 +131,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="flex items-center">
-                <img src="https://placehold.co/150x50/ffffff/0694a2?text=Zedong" alt="Zedong Logo" class="h-12 logo">
+                <img src="https://cdn.builder.io/api/v1/image/assets%2F24836939e6b24d848d6ebdf94ea0970a%2Fde9882f8acde4686bed1b9d1e5d99955?format=webp&width=800" alt="Zedong logo" class="h-12 w-auto logo">
             </a>
             <div class="hidden md:flex space-x-6 items-center">
                 <a href="#" class="text-gray-600 hover:text-purple-600 transition flex items-center"><i class="fas fa-home mr-2"></i>Home</a>
@@ -140,6 +140,7 @@
                 <a href="#vr-experience" class="text-gray-600 hover:text-purple-600 transition flex items-center"><i class="fas fa-vr-cardboard mr-2"></i>VR Experience</a>
                 <a href="#archives" class="text-gray-600 hover:text-purple-600 transition flex items-center"><i class="fas fa-archive mr-2"></i>Digital Archives</a>
                 <a href="#calendar" class="text-gray-600 hover:text-purple-600 transition flex items-center"><i class="fas fa-calendar-alt mr-2"></i>Cultural Calendar</a>
+                <button id="profile-button" class="px-4 py-2 font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition cursor-pointer">Login</button>
             </div>
             <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-purple-600">
                 <i class="fas fa-bars text-2xl"></i>
@@ -153,6 +154,7 @@
             <a href="#vr-experience" class="block py-2 text-gray-600 hover:text-purple-600">VR Experience</a>
             <a href="#archives" class="block py-2 text-gray-600 hover:text-purple-600">Archives</a>
             <a href="#calendar" class="block py-2 text-gray-600 hover:text-purple-600">Calendar</a>
+            <button id="mobile-profile-button" class="w-full mt-4 bg-purple-600 text-white font-semibold py-2 rounded-lg hover:bg-purple-700 transition cursor-pointer">Login</button>
         </div>
     </header>
 
@@ -544,7 +546,8 @@
                     <div class="flex items-center gap-2 mb-4"><span class="text-xs font-bold text-pink-700 bg-pink-100 px-3 py-1 rounded-full"><i class="fas fa-masks-theater mr-1.5"></i>Festival</span><span class="text-xs font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">Upcoming</span></div>
                     <h3
                         class="text-2xl font-bold text-gray-800">Hemis Festival</h3>
-                        <p class="text-sm text-gray-500 mb-4">Tashiding Monastery</p<div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-600 mb-4 border-b pb-4"><span><i class="far fa-calendar-alt w-5 text-center mr-1.5"></i> July 8-9, 2024</span><span><i class="far fa-clock w-5 text-center mr-1.5"></i> 9:00 AM</span><span><i class="far fa-hourglass-half w-5 text-center mr-1.5"></i> 2 days</span><span><i class="fas fa-users w-5 text-center mr-1.5"></i> 2,000 attendees</span></div>
+                        <p class="text-sm text-gray-500 mb-4">Tashiding Monastery</p>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-600 mb-4 border-b pb-4"><span><i class="far fa-calendar-alt w-5 text-center mr-1.5"></i> July 8-9, 2024</span><span><i class="far fa-clock w-5 text-center mr-1.5"></i> 9:00 AM</span><span><i class="far fa-hourglass-half w-5 text-center mr-1.5"></i> 2 days</span><span><i class="fas fa-users w-5 text-center mr-1.5"></i> 2,000 attendees</span></div>
                 <p
                     class="text-sm text-gray-600 mb-4">Masked dance festival celebrating Guru Padmasambhava's victory over evil.</p>
                     <div class="bg-gray-50 p-3 rounded-lg text-sm mb-6">
@@ -638,136 +641,7 @@
         </div>
     </footer>
 
-    <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close mobile menu when a link is clicked
-        const mobileMenuLinks = mobileMenu.getElementsByTagName('a');
-        for (let i = 0; i < mobileMenuLinks.length; i++) {
-            mobileMenuLinks[i].addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        }
-
-        // Auth Modal Logic
-        const authModal = document.getElementById('auth-modal');
-        const modalContent = document.getElementById('modal-content');
-        const closeModalButton = document.getElementById('close-modal-button');
-        const modalTitle = document.getElementById('modal-title');
-        const modalSubtitle = document.getElementById('modal-subtitle');
-
-        const loginTab = document.getElementById('login-tab');
-        const signupTab = document.getElementById('signup-tab');
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-
-        // Social Login Buttons
-        const loginGoogleBtn = document.getElementById('login-google-btn');
-        const loginFacebookBtn = document.getElementById('login-facebook-btn');
-        const signupGoogleBtn = document.getElementById('signup-google-btn');
-        const signupFacebookBtn = document.getElementById('signup-facebook-btn');
-
-
-        // Function to show the modal
-        const showModal = () => {
-            authModal.classList.remove('hidden');
-            // A little trick to trigger the transition
-            setTimeout(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-            }, 10);
-        };
-
-        // Function to hide the modal
-        const hideModal = () => {
-            modalContent.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => {
-                authModal.classList.add('hidden');
-            }, 300); // Match transition duration
-        };
-
-        // Show modal on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            // We'll add a small delay to let the page render first
-            setTimeout(showModal, 500);
-        });
-
-        // Close modal listeners
-        closeModalButton.addEventListener('click', hideModal);
-        authModal.addEventListener('click', (e) => {
-            // If click is on the overlay (outside the content), close modal
-            if (e.target === authModal) {
-                hideModal();
-            }
-        });
-
-        // Form submission listeners (for now, just close the modal)
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // In a real app, you'd handle login here
-            console.log('Email login submitted');
-            hideModal();
-        });
-
-        signupForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // In a real app, you'd handle registration here
-            console.log('Email signup submitted');
-            hideModal();
-        });
-
-        // Social login listeners
-        loginGoogleBtn.addEventListener('click', () => {
-            console.log('Google login attempt');
-            // A real implementation would trigger the Google OAuth flow here.
-            hideModal();
-        });
-        loginFacebookBtn.addEventListener('click', () => {
-            console.log('Facebook login attempt');
-            // A real implementation would trigger the Facebook OAuth flow here.
-            hideModal();
-        });
-        signupGoogleBtn.addEventListener('click', () => {
-            console.log('Google signup attempt');
-            hideModal();
-        });
-        signupFacebookBtn.addEventListener('click', () => {
-            console.log('Facebook signup attempt');
-            hideModal();
-        });
-
-
-        // Tab switching logic
-        loginTab.addEventListener('click', () => {
-            loginTab.classList.add('text-purple-600', 'border-purple-600');
-            loginTab.classList.remove('text-gray-500');
-            signupTab.classList.add('text-gray-500');
-            signupTab.classList.remove('text-purple-600', 'border-purple-600');
-
-            modalTitle.innerText = 'Welcome Back';
-            modalSubtitle.innerText = 'Sign in to continue your journey.';
-
-            loginForm.classList.remove('hidden');
-            signupForm.classList.add('hidden');
-        });
-
-        signupTab.addEventListener('click', () => {
-            signupTab.classList.add('text-purple-600', 'border-purple-600');
-            signupTab.classList.remove('text-gray-500');
-            loginTab.classList.add('text-gray-500');
-            loginTab.classList.remove('text-purple-600', 'border-purple-600');
-
-            modalTitle.innerText = 'Create an Account';
-            modalSubtitle.innerText = 'Join us to discover sacred heritage.';
-
-            signupForm.classList.remove('hidden');
-            loginForm.classList.add('hidden');
-        });
-    </script>
+    <script src="./app.js"></script>
 
 </body>
 
